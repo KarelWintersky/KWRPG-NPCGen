@@ -43,6 +43,8 @@ class npcCore {
             // пси
             'even_tempered' => 0, // уживчивость
             'leadership'    => 0, // лидерство
+            // debug value
+            'debug'         => 0
         ),
         'psi'   => array( // психические показатели
             'aggro'         => 0,

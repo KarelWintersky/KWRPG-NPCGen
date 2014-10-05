@@ -25,49 +25,49 @@ class npcFilters {
         'FtM' => 2
     );
 
-    // базовые статы в возрасте 9 лет
-    public static $race_base_stats = array(
+    // базовые статы в возрасте 5 лет
+    public static $base_stats_with_race = array(
         'хомо' => array(
-            'str'   =>  4,
-            'dex'   =>  3,
-            'int'   =>  3,
-            'wpw'   =>  3
-        ),
-        'фэйри' => array(
             'str'   =>  3,
-            'dex'   =>  4,
-            'int'   =>  3,
-            'wpw'   =>  3
-        ),
-        'хомо/нэйрэт' => array(
-            'str'   =>  4,
-            'dex'   =>  3,
-            'int'   =>  3,
-            'wpw'   =>  4
-        ),
-        'фэйри/нэйрэт' => array(
-            'str'   =>  3,
-            'dex'   =>  4,
-            'int'   =>  3,
-            'wpw'   =>  4
-        ),
-        'нэйрэт' => array(
-            'str'   =>  4,
-            'dex'   =>  4,
-            'int'   =>  3,
-            'wpw'   =>  3
-        ),
-        'старрел' => array(
-            'str'   =>  3,
-            'dex'   =>  4,
-            'int'   =>  4,
-            'wpw'   =>  3
-        ),
-        'ракаста' => array(
-            'str'   =>  4,
-            'dex'   =>  5,
+            'dex'   =>  2,
             'int'   =>  2,
             'wpw'   =>  2
+        ),
+        'фэйри' => array(
+            'str'   =>  2,
+            'dex'   =>  3,
+            'int'   =>  2,
+            'wpw'   =>  2
+        ),
+        'хомо/нэйрэт' => array(
+            'str'   =>  3,
+            'dex'   =>  2,
+            'int'   =>  2,
+            'wpw'   =>  3
+        ),
+        'фэйри/нэйрэт' => array(
+            'str'   =>  2,
+            'dex'   =>  3,
+            'int'   =>  2,
+            'wpw'   =>  3
+        ),
+        'нэйрэт' => array(
+            'str'   =>  3,
+            'dex'   =>  3,
+            'int'   =>  2,
+            'wpw'   =>  2
+        ),
+        'старрел' => array(
+            'str'   =>  2,
+            'dex'   =>  3,
+            'int'   =>  3,
+            'wpw'   =>  2
+        ),
+        'ракаста' => array(
+            'str'   =>  3,
+            'dex'   =>  4,
+            'int'   =>  1,
+            'wpw'   =>  1
         )
     );
 
@@ -125,6 +125,79 @@ class npcFilters {
             'dex'   =>  25,
             'int'   =>  30,
             'wpw'   =>  30
+        ),
+    );
+    // модификаторы (базовые значения) к тестам в зависимости от происхождения (origin)
+    public static $base_tests_with_origin = array(
+        'commoner' => array(
+            'endurance'     => 0, // STR: выносливость (пассивная)
+            'fitness'       => 0, // STR: физподготовка (активная)
+            'dexterity'     => 0, // DEX: физическая ловкость
+            'memory'        => 0, // DEX: способность к запоминанию информации
+            'curiosity'     => 0, // INT: Любознательность
+            'savvy'         => 0, // INT: смекалка
+            'even_tempered' => 0, // WPW: уживчивость
+            'leadership'    => 0, // WPW: лидерство
+        ),
+        'бродяга' => array(
+            'endurance'     => 0, // STR: выносливость (пассивная)
+            'fitness'       => 0, // STR: физподготовка (активная)
+            'dexterity'     => 0, // DEX: физическая ловкость
+            'memory'        => 0, // DEX: способность к запоминанию информации
+            'curiosity'     => 0, // INT: Любознательность
+            'savvy'         => 0, // INT: смекалка
+            'even_tempered' => 0, // WPW: уживчивость
+            'leadership'    => 0, // WPW: лидерство
+        ),
+        'табор' => array(
+            'endurance'     => 0, // STR: выносливость (пассивная)
+            'fitness'       => 0, // STR: физподготовка (активная)
+            'dexterity'     => 0, // DEX: физическая ловкость
+            'memory'        => 0, // DEX: способность к запоминанию информации
+            'curiosity'     => 0, // INT: Любознательность
+            'savvy'         => 0, // INT: смекалка
+            'even_tempered' => 0, // WPW: уживчивость
+            'leadership'    => 0, // WPW: лидерство
+        ),
+        'заимка' => array(
+            'endurance'     => 0, // STR: выносливость (пассивная)
+            'fitness'       => 0, // STR: физподготовка (активная)
+            'dexterity'     => 0, // DEX: физическая ловкость
+            'memory'        => 0, // DEX: способность к запоминанию информации
+            'curiosity'     => 0, // INT: Любознательность
+            'savvy'         => 0, // INT: смекалка
+            'even_tempered' => 0, // WPW: уживчивость
+            'leadership'    => 0, // WPW: лидерство
+        ),
+        'деревня' => array(
+            'endurance'     => 0, // STR: выносливость (пассивная)
+            'fitness'       => 0, // STR: физподготовка (активная)
+            'dexterity'     => 0, // DEX: физическая ловкость
+            'memory'        => 0, // DEX: способность к запоминанию информации
+            'curiosity'     => 0, // INT: Любознательность
+            'savvy'         => 0, // INT: смекалка
+            'even_tempered' => 0, // WPW: уживчивость
+            'leadership'    => 0, // WPW: лидерство
+        ),
+        'форт' => array(
+            'endurance'     => 0, // STR: выносливость (пассивная)
+            'fitness'       => 0, // STR: физподготовка (активная)
+            'dexterity'     => 0, // DEX: физическая ловкость
+            'memory'        => 0, // DEX: способность к запоминанию информации
+            'curiosity'     => 0, // INT: Любознательность
+            'savvy'         => 0, // INT: смекалка
+            'even_tempered' => 0, // WPW: уживчивость
+            'leadership'    => 0, // WPW: лидерство
+        ),
+        'город' => array(
+            'endurance'     => 0, // STR: выносливость (пассивная)
+            'fitness'       => 0, // STR: физподготовка (активная)
+            'dexterity'     => 0, // DEX: физическая ловкость
+            'memory'        => 0, // DEX: способность к запоминанию информации
+            'curiosity'     => 0, // INT: Любознательность
+            'savvy'         => 0, // INT: смекалка
+            'even_tempered' => 0, // WPW: уживчивость
+            'leadership'    => 0, // WPW: лидерство
         ),
     );
 }

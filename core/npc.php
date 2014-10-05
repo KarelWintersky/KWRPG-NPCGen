@@ -12,7 +12,34 @@ class npc extends npcCore
         $this->npc = $this->npc_template;
     }
 
-    public function getRace()
+    // увеличивает на 1 количество баллов по тесту (зависит от параметра, отвечающего за тест)
+    private function gainTest($test_name, $test_stat)
+    {
+        // это зависимость роста значения теста от параметра
+        $chance = 30 + $this->npc['stats'][ $test_stat ] * 6;
+        if ( d100() <= $chance )
+            $this->npc['tests'][ $test_name ] += 1;
+
+        // может ли зависеть вероятность роста теста от происхождения?
+        // или только базовое значение?
+    }
+
+    private function gainAllTests()
+    {
+        $this->gainTest('endurance', 'str');
+        $this->gainTest('fitness', 'str');
+
+        $this->gainTest('dexterity', 'dex');
+        $this->gainTest('memory', 'dex');
+
+        $this->gainTest('curiosity', 'int');
+        $this->gainTest('savvy', 'int');
+
+        $this->gainTest('even_tempered', 'wpw');
+        $this->gainTest('leadership', 'wpw');
+    }
+
+    private function getRace()
     {
         // выясняем расу
         $race = $this->rndWithFilter( npcFilters::$race );
@@ -20,14 +47,34 @@ class npc extends npcCore
 
         // выставляем базовые значения параметров в зависимости от расы
         foreach ($this->npc['stats'] as $stat_id => $stat_val ) {
-            $this->npc['stats'][ $stat_id ] = npcFilters::$race_base_stats [ $race ] [ $stat_id ];
+            $this->npc['stats'][ $stat_id ] = npcFilters::$base_stats_with_race [ $race ] [ $stat_id ];
         }
     }
 
-    public function Generate()
+    private function getOrigin()
+    {
+        // происхождение
+        $origin = $this->npc['origin'] = $this->rndWithFilter( npcFilters::$origins );
+        $this->npc['origin_wealth'] = dice(1, 100);
+
+        // базовые значения тестов в зависимости от происхождения
+        $base_test_value = 4;
+        foreach ($this->npc['tests'] as $test_id => $test_value ) {
+            $this->npc[ 'tests' ] [ $test_id ] = $base_test_value + npcFilters::$base_tests_with_origin [ $origin ] [ $test_id ];
+        }
+
+        // цикл генерации предварительных значений тестов (по году c самого рождения до 9 лет)
+        for ($i=0; $i<6; $i++) {
+            $this->gainAllTests();
+        }
+
+        return $origin;
+    }
+
+    private function Generate()
     {
         // возраст
-        $this->npc['age'] = $this->rndWithFilter( npcFilters::$age );
+        $age = $this->npc['age'] = $this->rndWithFilter( npcFilters::$age );
 
         // раса и базовые параметры
         $this->getRace();
@@ -35,22 +82,27 @@ class npc extends npcCore
         // пол
         $this->npc['sex'] = $this->rndWithFilter( npcFilters::$sex );
 
-        // происхождение
-        $origin = $this->npc['origin'] = $this->rndWithFilter( npcFilters::$origins );
-        $this->npc['origin_wealth'] = dice(1, 100);
+        $origin = $this->getOrigin();
 
-        // цикл предварительной генерации значений тестов
-
-
-        // цикл генерации параметров
-        for ($i=9; $i <= $this->npc['age']; $i++)
+        // цикл генерации параметров и значений тестов в зависимости от параметра
+        for ($i=6; $i <= $age; $i++)
         {
+            // параметры
             $gained_stat = $this->rndWithFilter( npcFilters::$stats_gain_chance[ $origin ]  );
             $this->npc['stats'][ $gained_stat ]++;
+
+            // тесты
+            $this->gainAllTests();
         }
-        // базовые значения для теста
 
 
+        return $this->npc;
+    }
+
+    /* ==== PUBLIC FUNCTIONS ==== */
+    public function getNPC()
+    {
+        $this->Generate();
         return $this->npc;
     }
 }
