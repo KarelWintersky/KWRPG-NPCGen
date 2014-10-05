@@ -22,7 +22,7 @@ class npcCore {
         ),
         // происхождение
         'origin'        => '',
-        'origin_value'  => 0,
+        'origin_wealth'  => 0, // богатство
         // stats
         'stats' => array(
             'str'   => 0,
@@ -31,15 +31,21 @@ class npcCore {
             'wpw'  => 0
         ),
         'tests' => array(
-            'savvy'         => 0, // смекалка
+            // офп
+            'endurance'     => 0, // выносливость (пассивная)
+            'fitness'       => 0, // физподготовка (активная)
+            // dexterity
+            'dexterity'     => 0, // физическая ловкость
             'memory'        => 0, // способность к запоминанию информации
-            'even_tempered' => 0, // уживчивость
+            // разум
             'curiosity'     => 0, // Любознательность
-            'sporty'        => 0, // спортивность
+            'savvy'         => 0, // смекалка
+            // пси
+            'even_tempered' => 0, // уживчивость
+            'leadership'    => 0, // лидерство
         ),
         'psi'   => array( // психические показатели
             'aggro'         => 0,
-            'leadership'    => 0
         )
     );
 

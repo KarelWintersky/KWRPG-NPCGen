@@ -26,13 +26,21 @@ class npc extends npcCore
 
     public function Generate()
     {
+        // возраст
         $this->npc['age'] = $this->rndWithFilter( npcFilters::$age );
 
+        // раса и базовые параметры
         $this->getRace();
 
+        // пол
         $this->npc['sex'] = $this->rndWithFilter( npcFilters::$sex );
 
+        // происхождение
         $origin = $this->npc['origin'] = $this->rndWithFilter( npcFilters::$origins );
+        $this->npc['origin_wealth'] = dice(1, 100);
+
+        // цикл предварительной генерации значений тестов
+
 
         // цикл генерации параметров
         for ($i=9; $i <= $this->npc['age']; $i++)
@@ -40,6 +48,7 @@ class npc extends npcCore
             $gained_stat = $this->rndWithFilter( npcFilters::$stats_gain_chance[ $origin ]  );
             $this->npc['stats'][ $gained_stat ]++;
         }
+        // базовые значения для теста
 
 
         return $this->npc;
