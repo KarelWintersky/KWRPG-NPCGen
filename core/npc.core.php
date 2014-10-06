@@ -43,8 +43,6 @@ class npcCore {
             // пси
             'even_tempered' => 0, // уживчивость
             'leadership'    => 0, // лидерство
-            // debug value
-            'debug'         => 0
         ),
         'psi'   => array( // психические показатели
             'aggro'         => 0,
@@ -53,15 +51,19 @@ class npcCore {
 
     public $__CACHE = array();
 
+    public function debugCacheStat()
+    {
+        return "Cache size =  ".count($this->__CACHE).' <br>Content: '.print_r($this->__CACHE, true).']';
+    }
+
     public static function array_hash($array)
     {
         return md5( json_encode($array) );
     }
 
-
     public function mapFilterArray( $filter )
     {
-        $xlat = array( 0 => '');
+        $xlat = array( 0 => 'NULL' );
         if (!is_array ($filter)) {
             printf("Exception in function <strong>%s</strong>, input value is not array and have <strong>%s</strong> type ", __FUNCTION__, gettype($filter));
             die();
