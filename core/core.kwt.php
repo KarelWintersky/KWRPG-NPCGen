@@ -13,6 +13,7 @@ KarelWintersky's Template simple engine ver 1.3
 function flatten($array, $prefix = '', $suffix = '/')
 {
     $result = array();
+    if (!is_array($array)) return null; // exit if array is empty
     foreach ($array as $key => $value)
     {
         if (is_array($value))
