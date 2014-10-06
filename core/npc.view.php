@@ -17,18 +17,12 @@ class npcView extends kwt {
     public static function formatRow($i, $npc )
     {
         $html = new kwt('/templates/npc.row.tpl.html', '{%', '%}');
+
+        $html->override( $npc );
+
         $html->override( array(
-            'index'     => $i,
-            'age'       => $npc['age'],
-            'sex'       => $npc['sex'],
-            'race'      => $npc['race'],
-            'origin'    => $npc['origin'],
-            'stats::str'
-
-        )
-        // $npc
-
-        );
+            'index' => $i
+        ) );
         return $html->get();
     }
 
@@ -36,7 +30,3 @@ class npcView extends kwt {
 }
 
 ?>
-
-<tr>
-    <td>{}</td>
-</tr>
