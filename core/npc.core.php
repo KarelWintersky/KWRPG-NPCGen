@@ -51,11 +51,13 @@ class npcCore {
 
     public $__CACHE = array();
 
+    // generate array hash key
     public static function array_hash($array)
     {
         return md5( json_encode($array) );
     }
 
+    // make xlat array for filter presented with array()
     public function mapFilterArray( $filter )
     {
         $xlat = array( 0 => 'NULL' );
@@ -70,6 +72,8 @@ class npcCore {
         return $xlat;
     }
 
+    // кидаем случайное значение и пропускаем его через фильтр сопоставления
+    // который нужен, чтобы сгенерировать "перекошенное" случайное значение
     public function rndWithFilter( $filter )
     {
         $filter_cached_id = $this::array_hash( $filter );

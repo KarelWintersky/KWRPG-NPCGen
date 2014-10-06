@@ -55,7 +55,7 @@ class npc extends npcCore
     private function getAggro()
     {
         $aggro = 3;
-        $aggro = npcFilters::$base_aggro_with_race [ $this->npc['race'] ]
+        $aggro += npcFilters::$base_aggro_with_race [ $this->npc['race'] ]
             + npcFilters::$base_aggro_with_origin [ $this->npc['origin'] ];
         $aggro += roll2d6();
         return $aggro;
