@@ -119,7 +119,24 @@ class npc extends npcCore
         // аггро
         $this->npc['psi']['aggro'] = $this->getAggro();
 
+        // Здоровье и зрение
+        $this->npc['health']['base'] = $this->rndWithFilter( npcFilters::$health_base );
 
+        // Зрение и нарушения
+        $h_vision = $this->npc['health']['vision'] = $this->rndWithFilter( npcFilters::$health_vision );
+        if ($h_vision == '+' || $h_vision == '-')
+            $this->npc['health']['vision_severity'] = $this->rndWithFilter( npcFilters::$health_vision_severity );
+
+        // Инвалидность и тяжесть
+        $h_disabled = $this->npc['health']['disabled'] = $this->rndWithFilter( npcFilters::$health_disabled );
+        if ($h_disabled != 'нет' ) {
+            $this->npc['health']['disabled_severity'] = d100();
+        }
+
+
+
+        // первая буква имени
+        $this->npc['letter'] = $this->getRandomKey( npcFilters::$letters );
         return $this->npc;
     }
 

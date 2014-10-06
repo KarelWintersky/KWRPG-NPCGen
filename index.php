@@ -9,7 +9,8 @@ $main_html = new kwt('/templates/npc.list.tpl.html');
 
 for ($i = 1; $i <= $npc_count; $i++) {
     $any = new NPC();
-    $npc_row .= npcView::formatRow($i, $any->getNPC());
+    $any_data = $any->getNPC();
+    $npc_row .= npcView::formatRow($i, $any_data);
 }
 
 $main_html->override(array(
@@ -23,5 +24,5 @@ $main_html->flush();
 <hr>
 
 <?php
-if ($flag_debug) echo '<pre>'.print_r( flatten($any->getNPC() ), true ).'</pre>';
+if ($flag_debug) echo '<pre>'.print_r( flatten( $any_data ), true ).'</pre>';
 ?>

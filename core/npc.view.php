@@ -13,6 +13,17 @@ class npcView extends kwt {
         $s = str_replace(self::$ASCIIBarBlank, '&nbsp;' , $s);
         return $s;
     }
+    public function makeBarsFromAgeAndStats($age, $stats)
+    {
+        return array(
+            'age' => $age,
+            'str' => $this->getAsciiBar($stats['str']) . "({$stats['str']})",
+            'dex' => $this->getAsciiBar($stats['dex']) . "({$stats['dex']})",
+            'int' => $this->getAsciiBar($stats['int']) . "({$stats['int']})",
+            'wpw' => $this->getAsciiBar($stats['wpw']) . "({$stats['wpw']})",
+        );
+    }
+
 
     public static function formatRow($i, $npc )
     {

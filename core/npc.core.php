@@ -87,6 +87,10 @@ class npcCore {
         return $xlat[ dice(1, count($xlat)-1)    ];
     }
 
+    public function getRandomKey( $array )
+    {
+        return $array [ mt_rand(0, count($array)-1 )  ];
+    }
 
     /* DEBUG */
     public function debugCacheStat()
