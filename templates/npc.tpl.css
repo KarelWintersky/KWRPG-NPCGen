@@ -21,6 +21,10 @@ table {
     width: 100%;
 }
 
+.masking {
+    color: white;
+}
+
 .time-report {
     font-size: x-small;
     font-style: italic;
