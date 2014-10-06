@@ -119,21 +119,31 @@ class npc extends npcCore
         // аггро
         $this->npc['psi']['aggro'] = $this->getAggro();
 
-        // Здоровье и зрение
-        $this->npc['health']['base'] = $this->rndWithFilter( npcFilters::$health_base );
+        // Здоровье и болезни
+        $h_base = $this->rndWithFilter( npcFilters::$health_base );
+        if ($h_base == 'плохое' || $h_base == 'болен') {
+            $h_disease_type = $this->rndWithFilter( npcFilters::$health_disease_type );
+            $h_disease_severity = d100();
+
+            $this->npc['base']['disease_type'] = $h_disease_type;
+            $this->npc['base']['disease_severity'] = $h_disease_severity;
+
+            $h_base = "<small>{$h_disease_type} ({$h_disease_severity})</small>";
+        }
+        $this->npc['health']['base'] = $h_base;
 
         // Зрение и нарушения
         $h_vision = $this->npc['health']['vision'] = $this->rndWithFilter( npcFilters::$health_vision );
         if ($h_vision == '+' || $h_vision == '-')
-            $this->npc['health']['vision_severity'] = $this->rndWithFilter( npcFilters::$health_vision_severity );
+            $this->npc['health']['vision'] .= $this->rndWithFilter( npcFilters::$health_vision_severity );
 
         // Инвалидность и тяжесть
         $h_disabled = $this->npc['health']['disabled'] = $this->rndWithFilter( npcFilters::$health_disabled );
         if ($h_disabled != 'нет' ) {
-            $this->npc['health']['disabled_severity'] = d100();
+            $this->npc['health']['disabled'] .= '('.d100().')';
+        } else {
+            $this->npc['health']['disabled'] = '--';
         }
-
-
 
         // первая буква имени
         $this->npc['letter'] = $this->getRandomKey( npcFilters::$letters );

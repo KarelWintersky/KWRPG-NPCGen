@@ -9,7 +9,7 @@ td.stats {
     color: red;
 }
 td.tests {
-    color: green;
+    color: #4169e1;
 }
 table tr:hover {
     background-color: #f0e68c;

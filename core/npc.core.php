@@ -15,10 +15,10 @@ class npcCore {
         ),
         // здоровье
         'health'    => array(
-            'base'      => 0,
-            'vision'    => '',
-            'disease'   => '',
-            'disabled'  => ''
+            'base'          => 0,
+            'disease_type'  => '', // тип болезни, если болен
+            'vision'        => '',
+            'disabled'      => '',
         ),
         // происхождение
         'origin'        => '',
