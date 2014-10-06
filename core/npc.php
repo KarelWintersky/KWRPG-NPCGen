@@ -39,7 +39,7 @@ class npc extends npcCore
         $this->gainTest('leadership', 'wpw');
     }
 
-    private function getRace()
+    private function evalRace()
     {
         // выясняем расу
         $race = $this->rndWithFilter( npcFilters::$race );
@@ -52,7 +52,7 @@ class npc extends npcCore
     }
 
     // вычисляем агрессию, зависящую от расы, происхождения и рандома
-    private function getAggro()
+    private function evalAggro()
     {
         $aggro = 3;
         $aggro += npcFilters::$base_aggro_with_race [ $this->npc['race'] ]
@@ -61,7 +61,7 @@ class npc extends npcCore
         return $aggro;
     }
 
-    private function getOrigin()
+    private function evalOrigin()
     {
         // происхождение
         $origin = $this->npc['origin'] = $this->rndWithFilter( npcFilters::$origins );
@@ -90,36 +90,16 @@ class npc extends npcCore
         return $origin;
     }
 
-    private function Generate()
+    // пол и связанные с ним штуковины (рост и вес, зависящие от возраста и расы)
+    private function evalSex()
     {
-        // возраст
-        $age = $this->npc['age'] = $this->rndWithFilter( npcFilters::$age );
-
-        // раса и базовые параметры
-        $this->getRace();
-        // цвета волос, глаз! (по хорошему %%-ы зависят от расы, но мы упростим, сделаем common-фильтр )
-
-        // пол
         $this->npc['sex'] = $this->rndWithFilter( npcFilters::$sex );
+    }
 
-        // происхождение и зависящие от него данные (значения тестов)
-        $origin = $this->getOrigin();
-
-        // цикл генерации параметров и значений тестов в зависимости от параметра
-        for ($i=6; $i <= $age; $i++)
-        {
-            // параметры
-            $gained_stat = $this->rndWithFilter( npcFilters::$stats_gain_chance[ $origin ]  );
-            $this->npc['stats'][ $gained_stat ]++;
-
-            // тесты
-            $this->gainAllTests();
-        }
-
-        // аггро
-        $this->npc['psi']['aggro'] = $this->getAggro();
-
-        // Здоровье и болезни
+    // Здоровье -- болезни, зрение, инвалидность и первичная визуализация
+    private function evalHealth()
+    {
+        //@warning: визуализируем не там где надо, слишком увлекшись flatten-версией оверрайда
         $h_base = $this->rndWithFilter( npcFilters::$health_base );
         if ($h_base == 'плохое' || $h_base == 'болен') {
             $h_disease_type = $this->rndWithFilter( npcFilters::$health_disease_type );
@@ -144,6 +124,41 @@ class npc extends npcCore
         } else {
             $this->npc['health']['disabled'] = '--';
         }
+
+    }
+
+    private function Generate()
+    {
+        // возраст
+        $age = $this->npc['age'] = $this->rndWithFilter( npcFilters::$age );
+
+        // раса и базовые параметры
+        $this->evalRace();
+
+        // цвета волос, глаз! (по хорошему %%-ы зависят от расы, но мы упростим, сделаем common-фильтр )
+
+        // пол
+        $this->evalSex();
+
+        // происхождение и зависящие от него данные (значения тестов)
+        $origin = $this->evalOrigin();
+
+        // цикл генерации параметров и значений тестов в зависимости от параметра
+        for ($i=6; $i <= $age; $i++)
+        {
+            // параметры
+            $gained_stat = $this->rndWithFilter( npcFilters::$stats_gain_chance[ $origin ]  );
+            $this->npc['stats'][ $gained_stat ]++;
+
+            // тесты
+            $this->gainAllTests();
+        }
+
+        // аггро
+        $this->npc['psi']['aggro'] = $this->evalAggro();
+
+        // здоровье
+        $this->evalHealth();
 
         // первая буква имени
         $this->npc['letter'] = $this->getRandomKey( npcFilters::$letters );
