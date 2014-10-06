@@ -20,3 +20,9 @@ table tr:hover>th , table tr:hover>td.header {
 table {
     width: 100%;
 }
+
+.time-report {
+    font-size: x-small;
+    font-style: italic;
+    text-align: right;
+}

@@ -4,14 +4,14 @@ require_once 'npc.randoms.php';
 class npcCore {
     public $npc_template = array(
         // базовые данные
-        'race'          => '',
-        'age'           => 0,
-        'sex'           => '',
+        'race'              => '',
+        'age'               => 0,
+        'sex'               => '',
         // базовые производные
         'color'     => array(
-            'eye'   => '',
-            'hair'  => '',
-            'skin'  => ''
+            'eye'           => '',
+            'hair'          => '',
+            'skin'          => '' // unused
         ),
         // здоровье
         'health'    => array(
@@ -21,14 +21,14 @@ class npcCore {
             'disabled'      => '',
         ),
         // происхождение
-        'origin'        => '',
-        'origin_wealth'  => 0, // богатство
+        'origin'            => '',
+        'origin_wealth'     => 0, // богатство
         // stats
         'stats' => array(
-            'str'   => 0,
-            'dex'   => 0,
-            'int'   => 0,
-            'wpw'  => 0
+            'str'           => 0,
+            'dex'           => 0,
+            'int'           => 0,
+            'wpw'           => 0
         ),
         'tests' => array(
             // офп
@@ -76,6 +76,8 @@ class npcCore {
     // который нужен, чтобы сгенерировать "перекошенное" случайное значение
     public function rndWithFilter( $filter )
     {
+        if (empty($filter)) return null;
+
         $filter_cached_id = $this::array_hash( $filter );
 
         if ( array_key_exists( $filter_cached_id, $this->__CACHE )) {
@@ -89,6 +91,7 @@ class npcCore {
 
     public function getRandomKey( $array )
     {
+        if (empty($array)) return null;
         return $array [ mt_rand(0, count($array)-1 )  ];
     }
 

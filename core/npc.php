@@ -124,7 +124,13 @@ class npc extends npcCore
         } else {
             $this->npc['health']['disabled'] = '--';
         }
+    }
 
+    // цвета волос и глаз!
+    private function evalColors()
+    {
+        $this->npc['color']['hair'] = $this->rndWithFilter( npcFilters::$color_hair );
+        $this->npc['color']['eye']  = $this->rndWithFilter( npcFilters::$color_eyes );
     }
 
     private function Generate()
@@ -161,7 +167,12 @@ class npc extends npcCore
         $this->evalHealth();
 
         // первая буква имени
-        $this->npc['letter'] = $this->getRandomKey( npcFilters::$letters );
+        $this->npc['letter1'] = $this->getRandomKey( npcFilters::$letters );
+        $this->npc['letter2'] = $this->getRandomKey( npcFilters::$letters );
+
+        // цвета волос и глаз
+        $this->evalColors();
+
         return $this->npc;
     }
 

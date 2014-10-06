@@ -1,9 +1,11 @@
 <?php
 require_once 'core/npc.php';
 require_once 'core/npc.view.php';
+$flag_debug = 0;
 
-$flag_debug = 1;
-$npc_count = 3;
+$npc_count = 20;
+
+$time = microtime(true);
 
 $main_html = new kwt('/templates/npc.list.tpl.html');
 
@@ -14,15 +16,17 @@ for ($i = 1; $i <= $npc_count; $i++) {
 }
 
 $main_html->override(array(
-    '____npc_list'  => $npc_row
+    '____npc_list'      => $npc_row,
+    '____time_report'   => round((microtime(true) - $time), 4)
 ));
 
 $main_html->flush();
 
-
-?>
-<hr>
-
-<?php
-if ($flag_debug) echo '<pre>'.print_r( flatten( $any_data ), true ).'</pre>';
+// debug
+$__debug_echo_start = ($flag_debug) ? '<hr><pre>' : "<!--\r\n";
+$__debug_echo_separator = ($flag_debug) ? '<hr>' : '----';
+$__debug_echo_end = ($flag_debug) ? '</pre>' : '-->';
+echo $__debug_echo_start;
+print_r( flatten( $any_data ) );
+echo $__debug_echo_end;
 ?>
