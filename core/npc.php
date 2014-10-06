@@ -57,14 +57,23 @@ class npc extends npcCore
         $origin = $this->npc['origin'] = $this->rndWithFilter( npcFilters::$origins );
         $this->npc['origin_wealth'] = dice(1, 100);
 
-        // базовые значения тестов в зависимости от происхождения
-        $base_test_value = 4;
+        $base_test_value = 2;
+        // инициализация базовым значением
         foreach ($this->npc['tests'] as $test_id => $test_value ) {
-            $this->npc[ 'tests' ] [ $test_id ] = $base_test_value + npcFilters::$base_tests_with_origin [ $origin ] [ $test_id ];
+            $this->npc[ 'tests' ] [ $test_id ] = $base_test_value;
         }
 
-        // цикл генерации предварительных значений тестов (по году c самого рождения до 9 лет)
-        for ($i=0; $i<6; $i++) {
+        // базовые значения тестов в зависимости от ПРОИСХОЖДЕНИЯ
+        foreach ($this->npc['tests'] as $test_id => $test_value ) {
+            $this->npc[ 'tests' ] [ $test_id ] += npcFilters::$base_tests_with_origin [ $origin ] [ $test_id ];
+        }
+        // базовые значения тестов в зависимости от РАСЫ
+        foreach ($this->npc['tests'] as $test_id => $test_value ) {
+            $this->npc[ 'tests' ] [ $test_id ] += npcFilters::$base_tests_with_race [ $this->npc['race'] ] [ $test_id ];
+        }
+
+        // цикл генерации предварительных значений тестов (по году c самого рождения до ... 6 лет)
+        for ($i = 0; $i < 6; $i++ ) {
             $this->gainAllTests();
         }
 
@@ -78,10 +87,12 @@ class npc extends npcCore
 
         // раса и базовые параметры
         $this->getRace();
+        // цвета волос, глаз! (по хорошему %%-ы зависят от расы, но мы упростим, сделаем common-фильтр )
 
         // пол
         $this->npc['sex'] = $this->rndWithFilter( npcFilters::$sex );
 
+        // происхождение и зависящие от него данные (значения тестов)
         $origin = $this->getOrigin();
 
         // цикл генерации параметров и значений тестов в зависимости от параметра
