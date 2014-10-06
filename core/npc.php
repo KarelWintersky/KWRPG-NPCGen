@@ -51,6 +51,16 @@ class npc extends npcCore
         }
     }
 
+    // вычисляем агрессию, зависящую от расы, происхождения и рандома
+    private function getAggro()
+    {
+        $aggro = 3;
+        $aggro = npcFilters::$base_aggro_with_race [ $this->npc['race'] ]
+            + npcFilters::$base_aggro_with_origin [ $this->npc['origin'] ];
+        $aggro += roll2d6();
+        return $aggro;
+    }
+
     private function getOrigin()
     {
         // происхождение
@@ -105,6 +115,9 @@ class npc extends npcCore
             // тесты
             $this->gainAllTests();
         }
+
+        // аггро
+        $this->npc['psi']['aggro'] = $this->getAggro();
 
 
         return $this->npc;

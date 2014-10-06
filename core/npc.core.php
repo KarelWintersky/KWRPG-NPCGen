@@ -51,11 +51,6 @@ class npcCore {
 
     public $__CACHE = array();
 
-    public function debugCacheStat()
-    {
-        return "Cache size =  ".count($this->__CACHE).' <br>Content: '.print_r($this->__CACHE, true).']';
-    }
-
     public static function array_hash($array)
     {
         return md5( json_encode($array) );
@@ -88,6 +83,12 @@ class npcCore {
         return $xlat[ dice(1, count($xlat)-1)    ];
     }
 
+
+    /* DEBUG */
+    public function debugCacheStat()
+    {
+        return "Cache size =  ".count($this->__CACHE).' <br>Content: '.print_r($this->__CACHE, true).']';
+    }
 
 }
 

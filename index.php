@@ -1,7 +1,7 @@
 <?php
 require_once 'core/npc.php';
 
-$flag_debug = false;
+$flag_debug = 0;
 
 $any = new NPC();
 
