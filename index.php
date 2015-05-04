@@ -3,7 +3,7 @@ require_once 'core/npc.php';
 require_once 'core/npc.view.php';
 $flag_debug = 0;
 
-$npc_count = 20;
+$npc_count = 80;
 
 $time = microtime(true);
 

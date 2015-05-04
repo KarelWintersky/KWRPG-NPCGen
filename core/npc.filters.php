@@ -328,9 +328,9 @@ class npcFilters {
         'болен' => 5
     );
     public static $health_disabled = array(
-        'нет' => 97,
-        'врожд.' => 1,
-        'травма' => 2
+        'нет' => 90,
+        'врожд.' => 3,
+        'травма' => 7
     );
     // зрение
     public static $health_vision = array(
