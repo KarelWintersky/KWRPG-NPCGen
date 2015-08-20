@@ -1,4 +1,4 @@
-<?
+<?php
 require_once 'core.kwt.php';
 
 /* функции визуализации данных */

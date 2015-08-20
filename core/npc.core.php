@@ -52,7 +52,7 @@ class npcCore {
     public $__CACHE = array();
 
     // generate array hash key
-    public static function array_hash($array)
+    public function array_hash($array)
     {
         return md5( json_encode($array) );
     }
@@ -78,7 +78,7 @@ class npcCore {
     {
         if (empty($filter)) return null;
 
-        $filter_cached_id = $this::array_hash( $filter );
+        $filter_cached_id = $this->array_hash( $filter );
 
         if ( array_key_exists( $filter_cached_id, $this->__CACHE )) {
             $xlat = $this->__CACHE[ $filter_cached_id ];
@@ -102,5 +102,3 @@ class npcCore {
     }
 
 }
-
-?>
