@@ -1,9 +1,11 @@
 <?php
 require_once 'core/npc.php';
 require_once 'core/npc.view.php';
+require_once 'core/npc.filters.1924.php';
+
 $flag_debug = 0;
 
-$npc_count = 80;
+$npc_count = 120;
 
 $time = microtime(true);
 
@@ -17,7 +19,9 @@ for ($i = 1; $i <= $npc_count; $i++) {
 
 $main_html->override(array(
     '____npc_list'      => $npc_row,
-    '____time_report'   => round((microtime(true) - $time), 4)
+    '____time_report'   => round((microtime(true) - $time), 4),
+    // '____npc_list_title'=> 'Генератор школоты. Новая Колония, Гиады, Федерация/1 сезон'
+    '____npc_list_title'=> ''
 ));
 
 $main_html->flush();

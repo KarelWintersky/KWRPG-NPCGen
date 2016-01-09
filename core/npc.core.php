@@ -23,6 +23,7 @@ class npcCore {
         // происхождение
         'origin'            => '',
         'origin_wealth'     => 0, // богатство
+        'confession'        =>  '', // вероисповедание
         // stats
         'stats' => array(
             'str'           => 0,

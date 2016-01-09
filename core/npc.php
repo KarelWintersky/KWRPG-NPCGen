@@ -1,6 +1,6 @@
 <?php
 require('npc.core.php');
-require('npc.filters.php');
+
 
 class npc extends npcCore
 {
@@ -49,6 +49,13 @@ class npc extends npcCore
         foreach ($this->npc['stats'] as $stat_id => $stat_val ) {
             $this->npc['stats'][ $stat_id ] = npcFilters::$base_stats_with_race [ $race ] [ $stat_id ];
         }
+    }
+
+    // вероисповедание
+    private function eval_confession()
+    {
+        $this->npc['confession'] = $this->rndWithFilter( npcFilters::$confession );
+
     }
 
     // вычисляем агрессию, зависящую от расы, происхождения и рандома

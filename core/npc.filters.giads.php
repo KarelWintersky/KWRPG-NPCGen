@@ -292,6 +292,10 @@ class npcFilters {
         ),
     );
 
+    public static $confession = array(
+        'атеист'        => 100
+    );
+
     // ***** АГГРО
     // бонус агрессии от расы
     public static $base_aggro_with_race = array(
