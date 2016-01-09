@@ -1,5 +1,8 @@
 <?php
-// https://docs.google.com/spreadsheets/d/1DIm3rXQ-jAuVLJM9bu-Nt2SKtJBn41ZSBr1IM-Wn0bI/edit#gid=0
+
+/**
+ *
+ */
 class npcFilters {
     public static $_ = array();
 
@@ -428,5 +431,3 @@ class npcFilters {
 
 }
 
-
-?>

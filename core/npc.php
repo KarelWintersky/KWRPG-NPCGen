@@ -2,17 +2,27 @@
 require('npc.core.php');
 
 
+/**
+ *
+ */
 class npc extends npcCore
 {
 
     private $npc;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->npc = $this->npc_template;
     }
 
-    // увеличивает на 1 количество баллов по тесту (зависит от параметра, отвечающего за тест)
+    /**
+     * увеличивает на 1 количество баллов по тесту (зависит от параметра, отвечающего за тест)
+     * @param $test_name
+     * @param $test_stat
+     */
     private function gainTest($test_name, $test_stat)
     {
         // это зависимость роста значения теста от параметра
@@ -24,6 +34,9 @@ class npc extends npcCore
         // или только базовое значение?
     }
 
+    /**
+     * Тесты
+     */
     private function gainAllTests()
     {
         $this->gainTest('endurance', 'str');
@@ -39,6 +52,9 @@ class npc extends npcCore
         $this->gainTest('leadership', 'wpw');
     }
 
+    /**
+     * Раса и базовые параметры от расы
+     */
     private function evalRace()
     {
         // выясняем расу
@@ -51,14 +67,19 @@ class npc extends npcCore
         }
     }
 
-    // вероисповедание
+    /**
+     * вероисповедание
+     */
     private function eval_confession()
     {
         $this->npc['confession'] = $this->rndWithFilter( npcFilters::$confession );
 
     }
 
-    // вычисляем агрессию, зависящую от расы, происхождения и рандома
+    /**
+     * вычисляем агрессию, зависящую от расы, происхождения и рандома
+     * @return int
+     */
     private function evalAggro()
     {
         $aggro = 3;
@@ -68,6 +89,10 @@ class npc extends npcCore
         return $aggro;
     }
 
+    /**
+     * Происхождение, раса и зависящие от них результаты тестов
+     * @return mixed
+     */
     private function evalOrigin()
     {
         // происхождение
@@ -97,13 +122,17 @@ class npc extends npcCore
         return $origin;
     }
 
-    // пол и связанные с ним штуковины (рост и вес, зависящие от возраста и расы)
+    /**
+     * пол и связанные с ним штуковины (рост и вес, зависящие от возраста и расы)
+     */
     private function evalSex()
     {
         $this->npc['sex'] = $this->rndWithFilter( npcFilters::$sex );
     }
 
-    // Здоровье -- болезни, зрение, инвалидность и первичная визуализация
+    /**
+     * Здоровье -- болезни, зрение, инвалидность и первичная визуализация
+     */
     private function evalHealth()
     {
         //@warning: визуализируем не там где надо, слишком увлекшись flatten-версией оверрайда
@@ -133,13 +162,18 @@ class npc extends npcCore
         }
     }
 
-    // цвета волос и глаз!
+    /**
+     * цвета волос и глаз!
+     */
     private function evalColors()
     {
         $this->npc['color']['hair'] = $this->rndWithFilter( npcFilters::$color_hair );
         $this->npc['color']['eye']  = $this->rndWithFilter( npcFilters::$color_eyes );
     }
 
+    /**
+     * @return array
+     */
     private function Generate()
     {
         // возраст
@@ -184,6 +218,9 @@ class npc extends npcCore
     }
 
     /* ==== PUBLIC FUNCTIONS ==== */
+    /**
+     * @return array
+     */
     public function getNPC()
     {
         $this->Generate();
@@ -191,5 +228,3 @@ class npc extends npcCore
     }
 }
 
-
-?>

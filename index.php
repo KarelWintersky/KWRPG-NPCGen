@@ -33,4 +33,3 @@ $__debug_echo_end = ($flag_debug) ? '</pre>' : '-->';
 echo $__debug_echo_start;
 print_r( flatten( $any_data ) );
 echo $__debug_echo_end;
-?>

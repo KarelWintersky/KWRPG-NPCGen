@@ -1,6 +1,9 @@
 <?php
 require_once 'npc.randoms.php';
 
+/**
+ *
+ */
 class npcCore {
     public $npc_template = array(
         // базовые данные
@@ -52,13 +55,21 @@ class npcCore {
 
     public $__CACHE = array();
 
-    // generate array hash key
+    /**
+     * generate array hash key
+     * @param $array
+     * @return string
+     */
     public function array_hash($array)
     {
         return md5( json_encode($array) );
     }
 
-    // make xlat array for filter presented with array()
+    /**
+     * make xlat array for filter presented with array()
+     * @param $filter
+     * @return array
+     */
     public function mapFilterArray( $filter )
     {
         $xlat = array( 0 => 'NULL' );
@@ -73,8 +84,14 @@ class npcCore {
         return $xlat;
     }
 
-    // кидаем случайное значение и пропускаем его через фильтр сопоставления
-    // который нужен, чтобы сгенерировать "перекошенное" случайное значение
+    //
+    //
+    /**
+     * кидаем случайное значение и пропускаем его через фильтр сопоставления
+     * который нужен, чтобы сгенерировать "перекошенное" случайное значение
+     * @param $filter
+     * @return null
+     */
     public function rndWithFilter( $filter )
     {
         if (empty($filter)) return null;
@@ -90,13 +107,20 @@ class npcCore {
         return $xlat[ dice(1, count($xlat)-1)    ];
     }
 
+    /**
+     * @param $array
+     * @return null
+     */
     public function getRandomKey( $array )
     {
         if (empty($array)) return null;
         return $array [ mt_rand(0, count($array)-1 )  ];
     }
 
-    /* DEBUG */
+    /**
+     * DEBUG
+     * @return string
+     */
     public function debugCacheStat()
     {
         return "Cache size =  ".count($this->__CACHE).' <br>Content: '.print_r($this->__CACHE, true).']';
