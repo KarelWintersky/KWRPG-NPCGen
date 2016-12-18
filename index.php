@@ -26,4 +26,4 @@ $main_html = websun_parse_template_path($template_data, $template_file, $templat
 echo $main_html;
 
 $debug_worktime = microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
-echo "<!-- Render time: {$debug_worktime}s -->";
+echo "<small>Render time: {$debug_worktime} sec. </small>";
