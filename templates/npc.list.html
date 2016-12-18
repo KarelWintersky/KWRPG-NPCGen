@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>KW NPC Generator</title>
+
+    <meta name="author" lang="ru" content="Karel Wintersky" />
+    <meta name="description" content="KW NPC Generator 2.0" />
+    <meta name="document-state" content="Dynamic" />
+    <meta name="generator" content="Handmade" />
+    <meta name="resource-type" content="document" />
+    <meta name="robots" content="none" />
+
+    <link rel="stylesheet" href="templates/npc.css">
+</head>
+<body>
+<h3>{*MT_Header*}</h3>
+<table border="1">
+    <tr>
+        <th rowspan="2">#</th>
+        <th rowspan="2">Age</th>
+        <th rowspan="2">Sex</th>
+        <th rowspan="2">Раса</th>
+        <th rowspan="2">
+            Происхождение<br>
+            <small>(богатство)</small>
+        </th>
+
+        <th colspan="8">Результаты тестирования</th>
+        <th rowspan="2">Aggro</th>
+        <th colspan="4">STATS</th>
+
+        <th rowspan="1" colspan="3">Здоровье (заболевание) </th>
+        <th rowspan="1" colspan="3">Прочее</th>
+    </tr>
+    <tr>
+        <td class="small header">выносл</td>
+        <td class="small header">о.ф.п.</td>
+
+        <td class="small header">проворство</td>
+        <td class="small header">память</td>
+
+        <td class="small header">любознат</td>
+        <td class="small header">смекалка</td>
+
+        <td class="small header">уживчив</td>
+        <td class="small header">лидер</td>
+
+        <th class="small">STR</th>
+        <th class="small">DEX</th>
+        <th class="small">INT</th>
+        <th class="small">WPW</th>
+
+        <td class="header">Общее</td>
+        <td class="header">Зрение</td>
+        <td class="header">Инв.</td>
+
+        <td class="header small">name</td>
+        <td class="header small">eye</td>
+        <td class="header small">hair</td>
+    </tr>
+    {%*NPCList*}
+    <tr>
+        <td class="small">{*NPCList:index*}</td>
+        <td>{*NPCList:age*}</td>
+        <td>{*NPCList:sex*}</td>
+        <td>{*NPCList:race*}</td>
+        <td>{*NPCList:origin*}</td>
+        <td class="tests">{*NPCList:tests.endurance*}</td>
+        <td class="tests">{*NPCList:tests.fitness*}</td>
+
+        <td class="tests">{*NPCList:tests.dexterity*}</td>
+        <td class="tests">{*NPCList:tests.memory*}</td>
+
+        <td class="tests">{*NPCList:tests.curiosity*}</td>
+        <td class="tests">{*NPCList:tests.savvy*}</td>
+
+        <td class="tests">{*NPCList:tests.even_tempered*}</td>
+        <td class="tests">{*NPCList:tests.leadership*}</td>
+
+        <td>{*NPCList:psi.aggro*}</td>
+
+        <td class="stats">{*NPCList:stats.str*}</td>
+        <td class="stats">{*NPCList:stats.dex*}</td>
+        <td class="stats">{*NPCList:stats.int*}</td>
+        <td class="stats">{*NPCList:stats.wpw*}</td>
+
+        <td>
+            {*NPCList:health.base*}
+        </td>
+        <td><span class="masking">'</span>{*NPCList:health.vision*}</td>
+        <td class="small">{*NPCList:health.disabled*}</td>
+
+        <td class="small"> {*NPCList:letter1*}+{*NPCList:letter2*} </td>
+        <td class="small">{*NPCList:color.eye*}</td>
+        <td class="small">{*NPCList:color.hair*}</td>
+
+    </tr>
+    {*NPCList*%}
+</table>
+<div class="time-report">
+    <br>© Karel Wintersky, 2014-2016.
+</div>
+</body>
+</html>

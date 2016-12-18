@@ -1,0 +1,32 @@
+td {
+    text-align: center;
+    border-color: black;
+}
+.small {
+    font-size: small;
+}
+td.stats {
+    color: red;
+}
+td.tests {
+    color: #4169e1;
+}
+table tr:hover {
+    background-color: #f0e68c;
+}
+table tr:hover>th , table tr:hover>td.header {
+    background-color: white;
+}
+table {
+    width: 100%;
+}
+
+.masking {
+    color: white;
+}
+
+.time-report {
+    font-size: x-small;
+    font-style: italic;
+    text-align: right;
+}
