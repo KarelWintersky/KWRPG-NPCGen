@@ -7,7 +7,6 @@ require_once 'npc.core.php';
 class NPC extends npcCore
 {
     private $npc;
-    private $filter;
 
     /**
      * @param string $filter
@@ -15,7 +14,6 @@ class NPC extends npcCore
     public function __construct($filter = null)
     {
         $this->npc = $this->npc_template;
-        $this->filter = $filter;
     }
 
     /**
@@ -64,7 +62,6 @@ class NPC extends npcCore
         // выставляем базовые значения параметров в зависимости от расы
         foreach ($this->npc['stats'] as $stat_id => $stat_val) {
             $this->npc['stats'][$stat_id] = npcFilters::$base_stats_with_race [$race] [$stat_id];
-            // $this->npc['stats'][$stat_id] = ($this->filter)::$base_stats_with_race [$race] [$stat_id];
         }
     }
 
