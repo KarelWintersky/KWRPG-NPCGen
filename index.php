@@ -1,35 +1,29 @@
 <?php
-require_once 'core/npc.php';
-require_once 'core/npc.view.php';
-require_once 'core/npc.filters.1924.php';
+define('SITE_ROOT', $_SERVER['DOCUMENT_ROOT']);
+require_once SITE_ROOT . '/core/websun.php';
+require_once SITE_ROOT . '/core/npc.php';
+require_once SITE_ROOT . '/core/npc.filters.1924.php';
 
-$flag_debug = 0;
+$npc_count = 40;
 
-$npc_count = 120;
-
-$time = microtime(true);
-
-$main_html = new kwt('/templates/npc.list.tpl.html');
+$NPC_List = array();
 
 for ($i = 1; $i <= $npc_count; $i++) {
     $any = new NPC();
-    $any_data = $any->getNPC();
-    $npc_row .= npcView::formatRow($i, $any_data);
+    $NPC_List[] = array_merge( array('index' => $i), $any->getNPC() );
+    unset($any);
 }
 
-$main_html->override(array(
-    '____npc_list'      => $npc_row,
-    '____time_report'   => round((microtime(true) - $time), 4),
-    // '____npc_list_title'=> 'Генератор школоты. Новая Колония, Гиады, Федерация/1 сезон'
-    '____npc_list_title'=> ''
-));
+$template_file = 'npc.list.html';
+$template_folder = '$/templates';
+$template_data = array(
+    'NPCList'   =>  $NPC_List,
+    'MT_Header' =>  npcFilters::$template_header
+);
 
-$main_html->flush();
+$main_html = websun_parse_template_path($template_data, $template_file, $template_folder);
 
-// debug
-$__debug_echo_start = ($flag_debug) ? '<hr><pre>' : "<!--\r\n";
-$__debug_echo_separator = ($flag_debug) ? '<hr>' : '----';
-$__debug_echo_end = ($flag_debug) ? '</pre>' : '-->';
-echo $__debug_echo_start;
-print_r( flatten( $any_data ) );
-echo $__debug_echo_end;
+echo $main_html;
+
+$debug_worktime = microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
+echo "<!-- Render time: {$debug_worktime}s -->";

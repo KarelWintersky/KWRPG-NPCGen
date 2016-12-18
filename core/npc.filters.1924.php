@@ -1,9 +1,10 @@
 <?php
 
 /**
- *
+ * Class npcFilters
  */
 class npcFilters {
+    public static $template_header = 'Контингент для школы Борянского';
     public static $_ = array();
 
     // раса

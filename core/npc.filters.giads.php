@@ -3,6 +3,7 @@
  * https://docs.google.com/spreadsheets/d/1DIm3rXQ-jAuVLJM9bu-Nt2SKtJBn41ZSBr1IM-Wn0bI/edit#gid=0
  */
 class npcFilters {
+    public static $template_header = 'Генератор школоты. Новая Колония, Гиады, Федерация/1 сезон';
     public static $_ = array();
 
     // раса
