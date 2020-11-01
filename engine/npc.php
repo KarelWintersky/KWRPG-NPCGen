@@ -9,21 +9,25 @@ class NPC extends npcCore
     private $npc;
     
     /**
-     * @var npcFilters
+     * @param npcFilters
      */
     private $filter;
     
-    public function __construct()
+    /**
+     * NPC constructor.
+     * @param npcFilters $filterClass
+     */
+    public function __construct(npcFilters $filterClass)
     {
         $this->npc = $this->npc_template;
+        $this->filter = $filterClass;
     }
     
     /**
      * @return array
      */
-    public function getNPC(npcFilters $filterClass)
+    public function getNPC()
     {
-        $this->filter = $filterClass;
         $this->filter::init();
         
         $this->Generate();
@@ -185,6 +189,14 @@ class NPC extends npcCore
         $this->npc['color']['hair'] = $this->rndWithFilter($this->filter::$color_hair);
         $this->npc['color']['eye'] = $this->rndWithFilter($this->filter::$color_eyes);
     }
+    
+    /**
+     * @return mixed|string|void|null
+     */
+    public function evalPsi()
+    {
+        return $this->rndWithFilter($this->filter::$is_psi);
+    }
 
     /**
      * @return array
@@ -211,7 +223,7 @@ class NPC extends npcCore
         $origin = $this->evalOrigin();
 
         // цикл генерации параметров и значений тестов в зависимости от параметра
-        for ($i = 6; $i <= $age; $i++) {
+        for ($i = 6; $i <= min($age, 25); $i++) {
             // параметры
             $gained_stat = $this->rndWithFilter($this->filter::$stats_gain_chance[$origin]);
             $this->npc['stats'][$gained_stat]++;
@@ -219,9 +231,16 @@ class NPC extends npcCore
             // тесты
             $this->gainAllTests();
         }
-
+        
+        if ($age > 25) {
+            for($i = min($age, 25); $i <= $age; $i++) {
+                $this->gainAllTests(); // после 25 лет растут только тесты
+            }
+        }
+        
         // аггро
         $this->npc['psi']['aggro'] = $this->evalAggro();
+        $this->npc['psi']['psi'] = $this->evalPsi();
 
         // здоровье
         $this->evalHealth();
@@ -232,10 +251,11 @@ class NPC extends npcCore
 
         // цвета волос и глаз
         $this->evalColors();
+        
+        $this->eval_confession();
 
         return $this->npc;
     }
-
-    /* ==== PUBLIC FUNCTIONS ==== */
+    
 }
 

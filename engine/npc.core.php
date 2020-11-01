@@ -50,7 +50,6 @@ function roll3d6()
  * Class npcCore
  */
 class npcCore {
-    
     public $npc_template = array(
         // базовые данные
         'race'              => '',
@@ -97,7 +96,7 @@ class npcCore {
             'aggro'         => 0,
         )
     );
-
+    
     public $__CACHE = array();
     
     /**
@@ -170,6 +169,11 @@ class npcCore {
     public function debugCacheStat()
     {
         return "Cache size =  ".count($this->__CACHE).' <br>Content: '.print_r($this->__CACHE, true).']';
+    }
+    
+    public function evalPsi()
+    {
+    
     }
 
 }

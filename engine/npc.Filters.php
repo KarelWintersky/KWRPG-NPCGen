@@ -66,7 +66,7 @@ class npcFilters
     public static $color_eyes;
     
     // *** ЭТНОСЫ
-    public static $etnic = array();
+    public static $etnic;
     
     public static $confession;
 }

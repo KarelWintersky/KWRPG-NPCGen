@@ -4,19 +4,20 @@ error_reporting(E_ALL & ~E_NOTICE);    ini_set("display_errors", "On");
 define('SITE_ROOT', $_SERVER['DOCUMENT_ROOT']);
 require_once SITE_ROOT . '/engine/websun.php';
 require_once SITE_ROOT . '/engine/npc.php';
+require_once SITE_ROOT . '/engine/interface.npcFilters.php';
 require_once SITE_ROOT . '/engine/npc.Filters.php';
 
 define('USE_TEMPLATE', 'list.york.html');
 
 require_once SITE_ROOT . '/filters/npc.filters.york.php';
 
-$npc_count = 40;
+$npc_count = 400;
 
 $NPC_List = array();
 
 for ($i = 1; $i <= $npc_count; $i++) {
-    $any = new NPC();
-    $NPC_List[] = array_merge( array('index' => $i), $any->getNPC(new npcFiltersYork()) );
+    $any = new NPC(new npcFiltersYork());
+    $NPC_List[] = array_merge( array('index' => $i), $any->getNPC() );
     unset($any);
 }
 

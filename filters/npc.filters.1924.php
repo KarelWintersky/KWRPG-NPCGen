@@ -3,7 +3,7 @@
 /**
  * Class npcFilters
  */
-class npcFilters
+class npcFilters1924 extends npcFilters implements __npcFilters
 {
     public static $template_header = '';
     public static $_ = array();
