@@ -1,7 +1,56 @@
 <?php
-require_once 'npc.randoms.php';
 
+/**
+ *
+ * @param $min
+ * @param $max
+ * @return int
+ */
+function dice($min, $max)
+{
+    return mt_rand($min, $max);
+}
+
+/**
+ *
+ * @return int
+ */
+function d100()
+{
+    return dice(1, 100);
+}
+
+/**
+ *
+ * @return int
+ */
+function rolld6()
+{
+    return dice(1, 6);
+}
+
+/**
+ *
+ * @return int
+ */
+function roll2d6()
+{
+    return dice(1, 6) + dice(1, 6);
+}
+
+/**
+ * @return int
+ */
+function roll3d6()
+{
+    return dice(1, 6) + dice(1, 6) + dice(1, 6);
+}
+
+/**
+ * Class npcCore
+ */
 class npcCore {
+    
     public $npc_template = array(
         // базовые данные
         'race'              => '',
@@ -50,14 +99,24 @@ class npcCore {
     );
 
     public $__CACHE = array();
-
-    // generate array hash key
+    
+    /**
+     * Генерирует ключ для кэша
+     *
+     * @param $array
+     * @return string
+     */
     public function array_hash($array)
     {
         return md5( json_encode($array) );
     }
 
-    // make xlat array for filter presented with array()
+    /**
+     * make xlat array for filter presented with array()
+     *
+     * @param $filter
+     * @return string[]
+     */
     public function mapFilterArray( $filter )
     {
         $xlat = array( 0 => 'NULL' );
@@ -72,8 +131,13 @@ class npcCore {
         return $xlat;
     }
 
-    // кидаем случайное значение и пропускаем его через фильтр сопоставления
-    // который нужен, чтобы сгенерировать "перекошенное" случайное значение
+    /**
+     * кидаем случайное значение и пропускаем его через фильтр сопоставления
+     * который нужен, чтобы сгенерировать "перекошенное" случайное значение
+     *
+     * @param $filter
+     * @return mixed|string|null
+     */
     public function rndWithFilter( $filter )
     {
         if (empty($filter)) return null;
@@ -88,14 +152,21 @@ class npcCore {
         }
         return $xlat[ dice(1, count($xlat)-1)    ];
     }
-
+    
+    /**
+     *
+     * @param $array
+     * @return mixed|null
+     */
     public function getRandomKey( $array )
     {
         if (empty($array)) return null;
         return $array [ mt_rand(0, count($array)-1 )  ];
     }
-
-    /* DEBUG */
+    
+    /**
+     * @return string
+     */
     public function debugCacheStat()
     {
         return "Cache size =  ".count($this->__CACHE).' <br>Content: '.print_r($this->__CACHE, true).']';

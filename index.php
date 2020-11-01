@@ -1,8 +1,8 @@
 <?php
 define('SITE_ROOT', $_SERVER['DOCUMENT_ROOT']);
-require_once SITE_ROOT . '/core/websun.php';
-require_once SITE_ROOT . '/core/npc.php';
-require_once SITE_ROOT . '/core/npc.filters.1924.php';
+require_once SITE_ROOT . '/engine/websun.php';
+require_once SITE_ROOT . '/engine/npc.php';
+require_once SITE_ROOT . '/filters/npc.filters.1924.php';
 
 $npc_count = 40;
 
