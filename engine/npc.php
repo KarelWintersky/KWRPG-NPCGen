@@ -7,14 +7,30 @@ require_once 'npc.core.php';
 class NPC extends npcCore
 {
     private $npc;
-
+    
     /**
-     * @param string $filter
+     * @var npcFilters
      */
-    public function __construct($filter = null)
+    private $filter;
+    
+    public function __construct()
     {
         $this->npc = $this->npc_template;
     }
+    
+    /**
+     * @return array
+     */
+    public function getNPC(npcFilters $filterClass)
+    {
+        $this->filter = $filterClass;
+        $this->filter::init();
+        
+        $this->Generate();
+        return $this->npc;
+    }
+    
+    /* ============================================= PRIVATE FUNCTIONS ========================================== */
 
     /**
      * увеличивает на 1 количество баллов по тесту (зависит от параметра, отвечающего за тест)
@@ -56,12 +72,12 @@ class NPC extends npcCore
     private function evalRace()
     {
         // выясняем расу
-        $race = $this->rndWithFilter(npcFilters::$race);
+        $race = $this->rndWithFilter($this->filter::$race);
         $this->npc['race'] = $race;
 
         // выставляем базовые значения параметров в зависимости от расы
         foreach ($this->npc['stats'] as $stat_id => $stat_val) {
-            $this->npc['stats'][$stat_id] = npcFilters::$base_stats_with_race [$race] [$stat_id];
+            $this->npc['stats'][$stat_id] = $this->filter::$base_stats_with_race [$race] [$stat_id];
         }
     }
 
@@ -70,7 +86,7 @@ class NPC extends npcCore
      */
     private function eval_confession()
     {
-        $this->npc['confession'] = $this->rndWithFilter(npcFilters::$confession);
+        $this->npc['confession'] = $this->rndWithFilter($this->filter::$confession);
 
     }
 
@@ -82,8 +98,8 @@ class NPC extends npcCore
     {
         $aggro = 3;
         $aggro += (
-                npcFilters::$base_aggro_with_race [$this->npc['race']] +
-                npcFilters::$base_aggro_with_origin [$this->npc['origin']] + roll2d6()
+                $this->filter::$base_aggro_with_race [$this->npc['race']] +
+                $this->filter::$base_aggro_with_origin [$this->npc['origin']] + roll2d6()
         );
         return $aggro;
     }
@@ -95,7 +111,7 @@ class NPC extends npcCore
     private function evalOrigin()
     {
         // происхождение
-        $origin = $this->npc['origin'] = $this->rndWithFilter(npcFilters::$origins);
+        $origin = $this->npc['origin'] = $this->rndWithFilter($this->filter::$origins);
         $this->npc['origin_wealth'] = dice(1, 100);
 
         $base_test_value = 2;
@@ -106,11 +122,11 @@ class NPC extends npcCore
 
         // базовые значения тестов в зависимости от ПРОИСХОЖДЕНИЯ
         foreach ($this->npc['tests'] as $test_id => $test_value) {
-            $this->npc['tests'] [$test_id] += npcFilters::$base_tests_with_origin [$origin] [$test_id];
+            $this->npc['tests'] [$test_id] += $this->filter::$base_tests_with_origin [$origin] [$test_id];
         }
         // базовые значения тестов в зависимости от РАСЫ
         foreach ($this->npc['tests'] as $test_id => $test_value) {
-            $this->npc['tests'] [$test_id] += npcFilters::$base_tests_with_race [$this->npc['race']] [$test_id];
+            $this->npc['tests'] [$test_id] += $this->filter::$base_tests_with_race [$this->npc['race']] [$test_id];
         }
 
         // цикл генерации предварительных значений тестов (по году c самого рождения до ... 6 лет)
@@ -126,7 +142,7 @@ class NPC extends npcCore
      */
     private function evalSex()
     {
-        $this->npc['sex'] = $this->rndWithFilter(npcFilters::$sex);
+        $this->npc['sex'] = $this->rndWithFilter($this->filter::$sex);
     }
 
     /**
@@ -135,9 +151,9 @@ class NPC extends npcCore
     private function evalHealth()
     {
         //@warning: визуализируем не там где надо, слишком увлекшись flatten-версией оверрайда
-        $h_base = $this->rndWithFilter(npcFilters::$health_base);
+        $h_base = $this->rndWithFilter($this->filter::$health_base);
         if ($h_base == 'плохое' || $h_base == 'болен') {
-            $h_disease_type = $this->rndWithFilter(npcFilters::$health_disease_type);
+            $h_disease_type = $this->rndWithFilter($this->filter::$health_disease_type);
             $h_disease_severity = d100();
 
             $this->npc['base']['disease_type'] = $h_disease_type;
@@ -148,12 +164,12 @@ class NPC extends npcCore
         $this->npc['health']['base'] = $h_base;
 
         // Зрение и нарушения
-        $h_vision = $this->npc['health']['vision'] = $this->rndWithFilter(npcFilters::$health_vision);
+        $h_vision = $this->npc['health']['vision'] = $this->rndWithFilter($this->filter::$health_vision);
         if ($h_vision == '+' || $h_vision == '-')
-            $this->npc['health']['vision'] .= $this->rndWithFilter(npcFilters::$health_vision_severity);
+            $this->npc['health']['vision'] .= $this->rndWithFilter($this->filter::$health_vision_severity);
 
         // Инвалидность и тяжесть
-        $h_disabled = $this->npc['health']['disabled'] = $this->rndWithFilter(npcFilters::$health_disabled);
+        $h_disabled = $this->npc['health']['disabled'] = $this->rndWithFilter($this->filter::$health_disabled);
         if ($h_disabled != 'нет') {
             $this->npc['health']['disabled'] .= '(' . d100() . ')';
         } else {
@@ -166,8 +182,8 @@ class NPC extends npcCore
      */
     private function evalColors()
     {
-        $this->npc['color']['hair'] = $this->rndWithFilter(npcFilters::$color_hair);
-        $this->npc['color']['eye'] = $this->rndWithFilter(npcFilters::$color_eyes);
+        $this->npc['color']['hair'] = $this->rndWithFilter($this->filter::$color_hair);
+        $this->npc['color']['eye'] = $this->rndWithFilter($this->filter::$color_eyes);
     }
 
     /**
@@ -176,8 +192,13 @@ class NPC extends npcCore
     private function Generate()
     {
         // возраст
-        $age = $this->npc['age'] = $this->rndWithFilter(npcFilters::$age);
-
+        if (is_callable($this->filter::$age)) {
+            $age = call_user_func($this->filter::$age);
+        } else {
+            $age = $this->rndWithFilter($this->filter::$age);
+        }
+        $this->npc['age'] = $age;
+        
         // раса и базовые параметры
         $this->evalRace();
 
@@ -192,7 +213,7 @@ class NPC extends npcCore
         // цикл генерации параметров и значений тестов в зависимости от параметра
         for ($i = 6; $i <= $age; $i++) {
             // параметры
-            $gained_stat = $this->rndWithFilter(npcFilters::$stats_gain_chance[$origin]);
+            $gained_stat = $this->rndWithFilter($this->filter::$stats_gain_chance[$origin]);
             $this->npc['stats'][$gained_stat]++;
 
             // тесты
@@ -206,8 +227,8 @@ class NPC extends npcCore
         $this->evalHealth();
 
         // первая буква имени
-        $this->npc['letter1'] = $this->getRandomKey(npcFilters::$letters);
-        $this->npc['letter2'] = $this->getRandomKey(npcFilters::$letters);
+        $this->npc['letter1'] = $this->getRandomKey($this->filter::$letters);
+        $this->npc['letter2'] = $this->getRandomKey($this->filter::$letters);
 
         // цвета волос и глаз
         $this->evalColors();
@@ -216,13 +237,5 @@ class NPC extends npcCore
     }
 
     /* ==== PUBLIC FUNCTIONS ==== */
-    /**
-     * @return array
-     */
-    public function getNPC()
-    {
-        $this->Generate();
-        return $this->npc;
-    }
 }
 

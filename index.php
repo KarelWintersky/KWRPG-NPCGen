@@ -1,8 +1,14 @@
 <?php
+error_reporting(E_ALL & ~E_NOTICE);    ini_set("display_errors", "On");
+
 define('SITE_ROOT', $_SERVER['DOCUMENT_ROOT']);
 require_once SITE_ROOT . '/engine/websun.php';
 require_once SITE_ROOT . '/engine/npc.php';
-require_once SITE_ROOT . '/filters/npc.filters.1924.php';
+require_once SITE_ROOT . '/engine/npc.Filters.php';
+
+define('USE_TEMPLATE', 'list.york.html');
+
+require_once SITE_ROOT . '/filters/npc.filters.york.php';
 
 $npc_count = 40;
 
@@ -10,18 +16,16 @@ $NPC_List = array();
 
 for ($i = 1; $i <= $npc_count; $i++) {
     $any = new NPC();
-    $NPC_List[] = array_merge( array('index' => $i), $any->getNPC() );
+    $NPC_List[] = array_merge( array('index' => $i), $any->getNPC(new npcFiltersYork()) );
     unset($any);
 }
 
-$template_file = 'npc.list.html';
-$template_folder = '$/templates';
 $template_data = array(
     'NPCList'   =>  $NPC_List,
-    'MT_Header' =>  npcFilters::$template_header
+    'MT_Header' =>  npcFiltersYork::$template_header
 );
 
-$main_html = websun_parse_template_path($template_data, $template_file, $template_folder);
+$main_html = websun_parse_template_path($template_data, USE_TEMPLATE, '$/templates');
 
 echo $main_html;
 

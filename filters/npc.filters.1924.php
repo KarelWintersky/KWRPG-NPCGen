@@ -3,8 +3,9 @@
 /**
  * Class npcFilters
  */
-class npcFilters {
-    public static $template_header = 'Контингент для школы Борянского';
+class npcFilters
+{
+    public static $template_header = '';
     public static $_ = array();
 
     // раса
@@ -429,6 +430,5 @@ class npcFilters {
     public static $confession = array(
         'атеист'    => 100
     );
-
 }
 
